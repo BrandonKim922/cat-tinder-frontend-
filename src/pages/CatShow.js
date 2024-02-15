@@ -1,7 +1,7 @@
 import React from "react"
-import { useParams } from "react-router-dom"
+import { NavLink as RouterNavLink, useParams } from "react-router-dom"
 
-const CatShow = ({ cats }) => {
+const CatShow = ({ cats, deleteCat }) => {
   const { id } = useParams()
   const cat = cats.find((item) => item.id === +id)
   console.log(cat)
@@ -17,6 +17,13 @@ const CatShow = ({ cats }) => {
       <p data-testid="cat-name">Name:{cat?.name}</p>
       <p>Age: {cat?.age}</p>
       <p>About: {cat?.about}</p>
+            <RouterNavLink to={`/catedit`} className="nav-link-button">
+              Update your Purr-File
+            </RouterNavLink>
+      <div></div>     
+      <RouterNavLink className="nav-link-button" onClick={() => deleteCat(cat.id)}>
+        Delete {cat?.name}
+      </RouterNavLink>
     </>
   )
 }
