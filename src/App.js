@@ -19,14 +19,14 @@ const App = () => {
   }, [])
 
   const readCat = () => {
-    fetch("https://cat-tinder-pcim.onrender.com/cats_fights")
+    fetch("http://localhost:3000/cats")
       .then((response) => response.json())
       .then((data) => setCats(data))
       .catch((errors) => console.log("Cat read errors:", errors))
   }
 
   const createCat = (newCat) => {
-    fetch("https://cat-tinder-pcim.onrender.com/cats_fights", {
+    fetch("http://localhost:3000/cats", {
       body: JSON.stringify(newCat),
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const App = () => {
   }
 
   const updateCat = (cat, id) => {
-    fetch(`https://cat-tinder-pcim.onrender.com/cat_fights/${id}`, {
+    fetch(`http://localhost:3000/cats/${id}`, {
       body: JSON.stringify(cat),
       method: "PATCH",
       headers: {
@@ -53,6 +53,18 @@ const App = () => {
       })
       .catch((errors) => console.log("Cat edit errors:", errors))
   }
+  const deleteCat = (id) => {
+    fetch(`http://localhost:3000/cats/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((response) => response.json())
+      .then(() => readCat())
+      .catch((errors) => console.log("Cat delete errors:", errors))
+    navigate("/catindex")
+  }
 
   console.log(cats)
   return (
@@ -63,6 +75,10 @@ const App = () => {
         <Route path="/catindex" element={<CatIndex cats={cats} />} />
         <Route path="/catshow/:id" element={<CatShow cats={cats} />} />
         <Route path="/catnew" element={<CatNew createCat={createCat} />} />
+        <Route
+          path="/catshow/:id"
+          element={<CatShow cats={cats} deleteCat={deleteCat} />}
+        />
         <Route
           path="/catedit"
           element={<CatEdit cats={cats} updateCat={updateCat} />} // Passing cats and updateCat function as props
