@@ -7,7 +7,7 @@ const Header = () => {
         <ul className="navigation">
           <li>
             <NavLink to="/" className="nav-link-button">
-              Home Pageaa
+              Home Page
             </NavLink>
           </li>
           <li>
